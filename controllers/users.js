@@ -39,6 +39,8 @@ module.exports.createUser = (req, res) => {
         res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка: не удалось создать нового пользователя' });
     });
   }
+
+  
 // module.exports.createUser = (req, res) => {
 //   const { name, about, avatar } = req.body;
 //   User.create({ name, about, avatar })
