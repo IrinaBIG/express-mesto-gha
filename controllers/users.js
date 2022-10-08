@@ -55,7 +55,7 @@ module.exports.createUser = (req, res) => {
 
 module.exports.updateUserProfileByID = (req, res) => {
   const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, about })
+  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true })
     .then((user) => {
       if (!user) {
         res.status(NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден.' })
@@ -68,6 +68,7 @@ module.exports.updateUserProfileByID = (req, res) => {
       }
       res.status(INTERNAL_SERVER_ERROR).send({ message: 'Ошибка по умолчанию' });
     });
+    // res.send({ data: user });
 };
 
 module.exports.updateUserAvatarByID = (req, res) => {
