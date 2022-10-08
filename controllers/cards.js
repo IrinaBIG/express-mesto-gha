@@ -28,7 +28,12 @@ module.exports.deleteCardById = (req, res) => {
       }
       res.send({ data: card });
     })
-    .catch(() => res.status(INTERNAL_SERVER_ERROR).send({ message: 'Ошибка по умолчанию' }));
+    .catch((err) => {
+      if (err) {
+        res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные при создании карточки.' })
+      }
+      res.status(INTERNAL_SERVER_ERROR).send({ message: 'Ошибка по умолчанию' });
+    });
 }
 
 module.exports.likeCard = (req, res) => {
@@ -44,7 +49,7 @@ module.exports.likeCard = (req, res) => {
     res.send({ data: card });
   })
   .catch((err) => {
-    if (err.name === 'ValidationError') {
+    if (err) {
       res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные для постановки/снятии лайка. ' })
     }
     res.status(INTERNAL_SERVER_ERROR).send({ message: 'Ошибка по умолчанию' });
@@ -64,7 +69,7 @@ module.exports.dislikeCard = (req, res) => {
     res.send({ data: card });
   })
   .catch((err) => {
-    if (err.name === 'ValidationError') {
+    if (err) {
       res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные для постановки/снятии лайка. ' })
     }
     res.status(INTERNAL_SERVER_ERROR).send({ message: 'Ошибка по умолчанию' });
