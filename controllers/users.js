@@ -28,19 +28,6 @@ module.exports.getUserId = (req, res) => {
     });
 };
 
-// module.exports.getUserId = (req, res) => {
-//   User.findById(req.params._id)
-//     .then((user) => {
-//       if (!user) {
-//         res.status(NOT_FOUND).send({ message: 'Пользователь по указанному _id не найден.' })
-//       }
-//       res.send(user);
-//     })
-//     .catch(() => {
-//       res.status(INTERNAL_SERVER_ERROR).send({ message: 'Ошибка по умолчанию' })
-//     })
-// };
-
 module.exports.createUser = (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
@@ -73,7 +60,7 @@ module.exports.updateUserProfileByID = (req, res) => {
 
 module.exports.updateUserAvatarByID = (req, res) => {
   const { avatar } = req.body;
-  User.findByIdAndUpdate(req.user._id, { avatar })
+  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true })
     .then((user) => {
       if (!user) {
         res.status(NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден.' })
