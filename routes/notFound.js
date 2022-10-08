@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const NotFound = require('../errors/NotFound');
+const { ERROR_CODE } = require('../utils/constants');
 
-router.use('*', (req, res, next) => {
-  next(new NotFound({ message: 'Ресурс не найден' }))
+router.patch('*', (req, res) => {
+  res.status(ERROR_CODE).send({ message: 'Ресурс не найден' })
 });
 
 
