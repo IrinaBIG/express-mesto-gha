@@ -1,6 +1,5 @@
-Ссылка на проектную работу: https://irinabig.github.io/mesto/index.html
-
-в GitHube https://github.com/IrinaBIG/mesto.git
+Ссылка на проектную работу
+в GitHube https://github.com/IrinaBIG/express-mesto-gha.git
 
 Проектная работа № 13
 
