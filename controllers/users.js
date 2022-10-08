@@ -9,22 +9,6 @@ module.exports.getUsers = (req, res) => {
     .catch(() => res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка: пользователи не найдены' }));
 };
 
-module.exports.getUserId = (req, res) => {
-  User.findById(req.params._id)
-    .then((user) => {
-      if (!user) {
-        res.status(NOT_FOUND).send({ message: 'Пользователь по указанному _id не найден.' })
-      }
-      res.send(user);
-    })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные при создании пользователя.' })
-      }
-      res.status(INTERNAL_SERVER_ERROR).send({ message: 'Ошибка по умолчанию' });
-    });
-};
-
 // module.exports.getUserId = (req, res) => {
 //   User.findById(req.params.id)
 //     .then((user) => {
@@ -33,10 +17,26 @@ module.exports.getUserId = (req, res) => {
 //       }
 //       res.send(user);
 //     })
-//     .catch(() => {
-//       res.status(INTERNAL_SERVER_ERROR).send({ message: 'Ошибка по умолчанию' })
-//     })
+//     .catch((err) => {
+//       if (err.name === 'ValidationError') {
+//         res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные при создании пользователя.' })
+//       }
+//       res.status(INTERNAL_SERVER_ERROR).send({ message: 'Ошибка по умолчанию' });
+//     });
 // };
+
+module.exports.getUserId = (req, res) => {
+  User.findById(req.params._id)
+    .then((user) => {
+      if (!user) {
+        res.status(NOT_FOUND).send({ message: 'Пользователь по указанному _id не найден.' })
+      }
+      res.send(user);
+    })
+    .catch(() => {
+      res.status(INTERNAL_SERVER_ERROR).send({ message: 'Ошибка по умолчанию' })
+    })
+};
 
 module.exports.createUser = (req, res) => {
   const { name, about, avatar } = req.body;
