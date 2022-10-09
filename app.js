@@ -13,7 +13,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb');
 
 app.use((req, res, next) => {
   req.user = {
-    _id: '6340ebdba9c35444f58ef354' // вставьте сюда _id созданного в предыдущем пункте пользователя
+    _id: '6340ebdba9c35444f58ef354', // вставьте сюда _id созданного в предыдущем пункте пользователя
   };
   next();
 });
@@ -23,6 +23,6 @@ app.use('/cards', require('./routes/cards'));
 app.use('*', require('./routes/notFound'));
 
 app.listen(PORT, () => {
-    // Если всё работает, консоль покажет, какой порт приложение слушает
-    console.log(`App listening on port ${PORT}`)
-})
+  // Если всё работает, консоль покажет, какой порт приложение слушает
+  console.log(`App listening on port ${PORT}`);
+});
