@@ -49,14 +49,17 @@ module.exports.getUserId = (req, res) => {
 
 module.exports.createUser = (req, res) => {
   const {
-    name, about, avatar, email, password,
+    name, about, avatar,
   } = req.body;
-  User.create({
-    name, about, avatar, email, password,
-  });
+  // User.create({
+  //   name, about, avatar, email, password,
+  // });
   // хешируем пароль
   bcrypt.hash(req.body.password, 7)
     .then((hash) => User.create({
+      name,
+      about,
+      avatar,
       email: req.body.email,
       password: hash, // записываем хеш в базу
     }))
@@ -74,9 +77,9 @@ module.exports.login = (req, res) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
+      // const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
       // вернём токен
-      res.send({ token });
+      res.send({ token: jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' }) });
     })
     .catch((err) => {
       res.status(401).send({ message: err.message });
