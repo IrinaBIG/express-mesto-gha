@@ -1,5 +1,7 @@
 const Card = require('../models/card');
-const { ERROR_CODE, INTERNAL_SERVER_ERROR, NOT_FOUND } = require('../utils/constants');
+const {
+  ERROR_CODE, INTERNAL_SERVER_ERROR, NOT_FOUND, FORBIDDEN,
+} = require('../utils/constants');
 
 module.exports.getCards = (req, res) => {
   Card.find({})
@@ -21,17 +23,24 @@ module.exports.createCard = (req, res) => {
 };
 
 module.exports.deleteCardById = (req, res) => {
-  Card.findByIdAndRemove(req.params.id)
+  const owner = req.user._id;
+  Card.findById(req.params.id)
     .then((card) => {
       if (!card) {
-        res.status(NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден.' });
-      } else {
-        res.send({ data: card });
+        return res.status(NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден.' });
       }
+      const cardOwner = card.owner.toString();
+      // console.log(cardOwner);
+      // console.log(owner);
+      if (cardOwner !== owner) {
+        return res.status(FORBIDDEN).send({ message: 'Вы не можете удалить карточку другого пользователя' });
+      }
+      card.delete();
+      return res.send({ message: `Карточка с ID '${req.params.id}' удалена` });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные при создании карточки.' });
+        res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные при удалении карточки.' });
       } else {
         res.status(INTERNAL_SERVER_ERROR).send({ message: 'Ошибка по умолчанию' });
       }
