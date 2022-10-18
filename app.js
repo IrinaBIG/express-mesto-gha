@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const auth = require('./middlewares/auth');
 const { login, createUser } = require('./controllers/users');
 const { celebrateSignUp, celebrateSignIn } = require('./middlewares/validation');
-
+// const { celebrateSignUp } = require('./middlewares/validation');
 // Слушаем 3000 порт
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -22,8 +22,9 @@ mongoose.connect('mongodb://localhost:27017/mestodb');
 //   next();
 // });
 
-app.post('/signin', celebrateSignUp, login);
-app.post('/signup', celebrateSignIn, createUser);
+app.post('/signup', celebrateSignUp, createUser);
+// app.post('/signup', celebrateSignIn, createUser);
+app.post('/signin', celebrateSignIn, login);
 
 app.use(auth);
 app.use('/users', require('./routes/users'));

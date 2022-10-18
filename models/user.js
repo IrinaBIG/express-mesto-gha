@@ -1,18 +1,18 @@
 const bcrypt = require('bcryptjs'); // импортируем bcrypt
 const mongoose = require('mongoose');
+const validateEmail = require('../validateEmail');
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    // required: true,
     minlength: 2,
+    // minlength: [2, 'Имя не может быть меньше 2 символов'],
     maxlength: 30,
     default: 'Жак-Ив Кусто',
   },
 
   about: {
     type: String,
-    // required: true,
     minlength: 2,
     maxlength: 30,
     default: 'Исследователь',
@@ -20,7 +20,11 @@ const userSchema = new mongoose.Schema({
 
   avatar: {
     type: String,
-    // required: true,
+    // validate: {
+    //   validator(v) {
+    //     return /\d{3}-\d{3}-\d{4}/.test(v);
+    //   },
+    // },
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
   },
 
@@ -28,12 +32,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     unique: true,
     required: true,
-    select: false, // необходимо добавить поле select
+    validate: {
+      validator: validateEmail,
+    },
   },
+
   password: {
     type: String,
     required: true,
-    // minlength: 8,
+    select: false, // необходимо добавить поле select. Так по умолчанию хеш пароля пользователя
+    // не будет возвращаться из базы.
+    // minlength: 8, - по чек-листу: не дб ограничений в длину, так как пароль хранится в виде хэша.
+    // мб только с учетом соли можно задать. надо подумать. должно сработать.
   },
 
 });
