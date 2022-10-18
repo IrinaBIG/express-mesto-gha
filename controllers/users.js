@@ -51,9 +51,6 @@ module.exports.createUser = (req, res) => {
   const {
     name, about, avatar,
   } = req.body;
-  // User.create({
-  //   name, about, avatar, email, password,
-  // });
   // хешируем пароль
   bcrypt.hash(req.body.password, 7)
     .then((hash) => User.create({
@@ -66,10 +63,9 @@ module.exports.createUser = (req, res) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные при создании пользователя.' });
-      } else { // здесь тоже поправила, хоть и не отмечено было..
-        res.status(INTERNAL_SERVER_ERROR).send({ message: 'Ошибка по умолчанию' });
+        return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные при создании пользователя.' });
       }
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: 'Ошибка по умолчанию' });
     });
 };
 
