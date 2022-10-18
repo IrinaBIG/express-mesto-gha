@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const auth = require('./middlewares/auth');
 const { login, createUser } = require('./controllers/users');
 const { celebrateSignUp, celebrateSignIn } = require('./middlewares/validation');
-// const { celebrateSignUp } = require('./middlewares/validation');
+
 // Слушаем 3000 порт
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -14,16 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // для приёма ве�
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
-// app.use((req, res, next) => {
-//   req.user = {
-//   eslint-disable-next-line max-len, max-len, max-len
-//     id: '6340ebdba9c35444f58ef354', // вставьте сюда _id созданного в предыдущем пункте пользователя
-//   };
-//   next();
-// });
-
 app.post('/signup', celebrateSignUp, createUser);
-// app.post('/signup', celebrateSignIn, createUser);
 app.post('/signin', celebrateSignIn, login);
 
 app.use(auth);

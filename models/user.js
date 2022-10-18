@@ -5,16 +5,16 @@ const validateEmail = require('../validateEmail');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    minlength: 2,
-    // minlength: [2, 'Имя не может быть меньше 2 символов'],
-    maxlength: 30,
+    // minlength: 2,
+    minlength: [2, 'Имя не может быть меньше 2 символов'],
+    maxlength: [30, 'Имя не может быть больше 30 символов'],
     default: 'Жак-Ив Кусто',
   },
 
   about: {
     type: String,
-    minlength: 2,
-    maxlength: 30,
+    minlength: [2, 'Поле About не может быть меньше 2 символов'],
+    maxlength: [30, 'Поле About не может быть больше 30 символов'],
     default: 'Исследователь',
   },
 
@@ -30,12 +30,25 @@ const userSchema = new mongoose.Schema({
 
   email: {
     type: String,
-    unique: true,
-    required: true,
+    unique: [true, 'Пользователь с таким email уже существет'],
+    required: [true, 'Поле обязательно к заполнению'],
     validate: {
       validator: validateEmail,
     },
+    message: 'Поле должно содержать email',
   },
+
+  // email: {
+  //   type: String,
+  //   unique: [true, 'Пользователь с таким email уже существет'],
+  //   required: [true, 'Поле обязательно к заполнению'],
+  //   validate: {
+  //     validator(v) => {
+  //       return v = validateEmail;
+  //     },
+  //     message: 'Поле должно содержать email',
+  //   },
+  // },
 
   password: {
     type: String,
