@@ -9,3 +9,24 @@ module.exports.celebrateSignUp = celebrate({
     password: Joi.string().required(),
   }),
 });
+
+module.exports.celebrateSignIn = celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
+  }),
+});
+
+// module.exports.celebrateGetMe = celebrate({
+//   body: Joi.object().keys({
+//     email: Joi.string().required().email(),
+//     password: Joi.string().required(),
+//   }),
+// });
+
+// module.exports.celebrateSignIn = celebrate({
+//   body: Joi.object().keys({
+//     email: Joi.string().required().email(),
+//     password: Joi.string().required(),
+//   }),
+// });
