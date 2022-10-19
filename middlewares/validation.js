@@ -1,5 +1,9 @@
 const { celebrate, Joi } = require('celebrate');
 
+// const regexUrl = /\bhttps?:\/\/([a-zA-Z0-9]{1,}-]+.]|[$-_@.&+!*,]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/;
+// const regexUrl = /https?:\/\/[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,3}(\/\S*)?/;
+const regexUrl = /\bhttps?:\/\/(?:[a-zA-Z0-9]|[$-_@.&+]|[!*,]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/;
+
 module.exports.celebrateSignUp = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
@@ -26,14 +30,14 @@ module.exports.celebrateUpdateUser = celebrate({
 
 module.exports.celebrateUserAvatarByID = celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string(),
+    avatar: Joi.string().required().pattern(regexUrl),
   }),
 });
 
 module.exports.celebrateCreateCard = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).required(),
-    link: Joi.string().required(),
+    link: Joi.string().required().pattern(regexUrl),
   }),
 });
 

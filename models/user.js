@@ -5,7 +5,6 @@ const validateEmail = require('../validateEmail');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    // minlength: 2,
     minlength: [2, 'Имя не может быть меньше 2 символов'],
     maxlength: [30, 'Имя не может быть больше 30 символов'],
     default: 'Жак-Ив Кусто',
@@ -20,11 +19,6 @@ const userSchema = new mongoose.Schema({
 
   avatar: {
     type: String,
-    // validate: {
-    //   validator(v) {
-    //     return /\d{3}-\d{3}-\d{4}/.test(v);
-    //   },
-    // },
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
   },
 
@@ -37,18 +31,6 @@ const userSchema = new mongoose.Schema({
     },
     message: 'Поле должно содержать email',
   },
-
-  // email: {
-  //   type: String,
-  //   unique: [true, 'Пользователь с таким email уже существет'],
-  //   required: [true, 'Поле обязательно к заполнению'],
-  //   validate: {
-  //     validator(v) => {
-  //       return v = validateEmail;
-  //     },
-  //     message: 'Поле должно содержать email',
-  //   },
-  // },
 
   password: {
     type: String,
