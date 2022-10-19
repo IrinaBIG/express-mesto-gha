@@ -7,8 +7,6 @@ const UnauthorizedErr = require('../errors/unauthorized-err');
 // const { countDocuments } = require('../models/user');
 const User = require('../models/user');
 
-const { NOT_FOUND, ERROR_CODE, INTERNAL_SERVER_ERROR } = require('../utils/constants');
-
 module.exports.getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.send({ data: users }))
@@ -38,7 +36,7 @@ module.exports.getUserId = (req, res, next) => {
   User.findById(req.params._id)
     .then((user) => {
       if (!user) {
-        throw new NotFoundErr('Пользователь не найден.');
+        throw new NotFoundErr('Пользователь по указанному _id не найден.');
         // res.status(NOT_FOUND).send({ message: 'Пользователь по указанному _id не найден.' });
       } else {
         res.send(user);
@@ -53,7 +51,7 @@ module.exports.getUserId = (req, res, next) => {
     });
 };
 
-module.exports.createUser = (req, res) => {
+module.exports.createUser = (req, res, next) => {
   const {
     name, about, avatar,
   } = req.body;
@@ -69,9 +67,10 @@ module.exports.createUser = (req, res) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные при создании пользователя.' });
+        next(new BadRequestErr('Переданы некорректные данные при создании пользователя.'));
+      } else {
+        next(err);
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: 'Ошибка по умолчанию' });
     });
 
   // .catch((err) => {
@@ -110,7 +109,8 @@ module.exports.updateUserProfileByID = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
-        res.status(NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден.' });
+        throw new NotFoundErr('Пользователь с указанным _id не найден.');
+        // res.status(NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден.' });
       } else { // здесь тоже поправила, хоть и не отмечено было..
         res.send({ data: user });
       }
@@ -129,7 +129,8 @@ module.exports.updateUserAvatarByID = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
-        res.status(NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден.' });
+        throw new NotFoundErr('Пользователь с указанным _id не найден.');
+        // res.status(NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден.' });
       } else { // здесь тоже поправила, хоть и не отмечено было..
         res.send({ data: user });
       }
