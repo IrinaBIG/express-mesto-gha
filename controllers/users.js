@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs'); // импортируем bcrypt
 const jwt = require('jsonwebtoken');
 const BadRequestErr = require('../errors/bad-request-err');
 const NotFoundErr = require('../errors/not-found-err');
-// const ConflictErr = require('../errors/conflict-err');
+const ConflictErr = require('../errors/conflict-err');
 const UnauthorizedErr = require('../errors/unauthorized-err');
 // const { countDocuments } = require('../models/user');
 const User = require('../models/user');
@@ -71,22 +71,22 @@ module.exports.createUser = (req, res, next) => {
       _id: user._id,
       email: user.email,
     }))
+    // .catch((err) => {
+    //   console.log(err);
+    //   if (err.name === 'ValidationError' && err.code === '11000') {
+    //     next(new BadRequestErr('Переданы некорректные данные при создании пользователя.'));
+    //   } else {
+    //     next(err);
+    //   }
+    // });
+
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new BadRequestErr('Переданы некорректные данные при создании пользователя.'));
+      if (err.code === 11000) {
+        next(new ConflictErr(`Пользователь с email '${req.body.email}' уже существует`));
       } else {
         next(err);
       }
     });
-
-  // .catch((err) => {
-  //   console.log(err);
-  //   if (err.code === '11000') {
-  //     next(new ConflictErr(`Пользователь с email '${req.body.email}' уже существует`));
-  //   } else {
-  //     next(err);
-  //   }
-  // });
 
   // .catch((err) => {
   //   if (err.name === 'ValidationError') {
