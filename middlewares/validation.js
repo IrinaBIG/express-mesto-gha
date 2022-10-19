@@ -45,6 +45,6 @@ module.exports.celebrateCreateCard = celebrate({
 module.exports.celebrateDeleteAndLikesCard = celebrate({
   // валидируем параметры
   params: Joi.object().keys({
-    _id: Joi.string().alphanum().length(24), // длина id = 24
+    id: Joi.string().alphanum().length(24), // длина id = 24
   }),
 });

@@ -10,6 +10,6 @@ router.get('/', getUsers);
 router.get('/me', getUsersMe);
 router.patch('/me', celebrateUpdateUser, updateUserProfileByID);
 router.patch('/me/avatar', celebrateUserAvatarByID, updateUserAvatarByID);
-router.get('/:_id', celebrateDeleteAndLikesCard, getUserId);
+router.get('/:id', celebrateDeleteAndLikesCard, getUserId);
 
 module.exports = router;
