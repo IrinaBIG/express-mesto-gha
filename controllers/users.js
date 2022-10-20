@@ -79,7 +79,6 @@ module.exports.createUser = (req, res, next) => {
     //     next(err);
     //   }
     // });
-
     .catch((err) => {
       if (err.code === 11000) {
         next(new ConflictErr(`Пользователь с email '${req.body.email}' уже существует`));
@@ -89,7 +88,7 @@ module.exports.createUser = (req, res, next) => {
     });
 
   // .catch((err) => {
-  //   if (err.name === 'ValidationError') {
+  //   if (err.name === 'ValidationError' && err.code === 11000) {
   //     next(new BadRequestErr(`Пользователь с email '${req.body.email}' уже существует`));
   //   } else {
   //     next(err);
