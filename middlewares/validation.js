@@ -1,10 +1,10 @@
 const { celebrate, Joi } = require('celebrate');
 
-// const regexUrl = /\bhttps?:\/\/([a-zA-Z0-9]{1,}-]+.]|[$-_@.&+!*,]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/;
-// const regexUrl = /https?:\/\/[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,3}(\/\S*)?/;
-// const regexUrl = /\bhttps?:\/\/(?:[a-zA-Z0-9]|[$-_@.&+]|[!*,]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/;
-// const regexUrl = /http[s]?:\/\/(?:[0-9]|[a-zA-Z]|[$-_@.&+]|[!*,]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/;
-const regexUrl = /^https?:\/\/(\w+|-(\.)|\w+\.ru|\w+[-._~:/]|[?#[]@!$&'()]|[*+,;=]#$)/;
+// const regexUrl = /^https?:\/\/[\w-.]*[^\W]*(\.ru)$|^https?:\/\/[\w-.]*[^\W]*(\.ru\/)$
+// |^https?:\/\/[\w-.]*[^\W]*(\.ru\/)
+// [\w-.]*|[\W]*[^А-Яа-я]+/; // проверка link:/link~!bad
+// const regexUrl = /^https?:\/\/(\w*|-(\.)|\w*\.ru|\w*[-._~:/]|[?#[]@!$&'()]|[*+,;=]#$)/;
+const regexUrl = /^https?:\/\/[\w-.]*[\W]*(\.ru|\.com)$|^https?:\/\/[\w-.]*[\W]*(\.ru|\.com)+(\/[\w]*|[+-_~:/?#[].@!$&'()*,;=])*$/;
 
 module.exports.celebrateSignUp = celebrate({
   body: Joi.object().keys({
