@@ -3,9 +3,12 @@ const { celebrate, Joi } = require('celebrate');
 // const regexUrl = /^https?:\/\/[\w-.]*[^\W]*(\.ru)$|^https?:\/\/[\w-.]*[^\W]*(\.ru\/)$
 // |^https?:\/\/[\w-.]*[^\W]*(\.ru\/)
 // [\w-.]*|[\W]*[^А-Яа-я]+/; // проверка link:/link~!bad
-const regexUrl = /^https?:\/\/(\w*|-(\.)|\w*\.ru|\w*[-._~:/]|[?#[]@!$&'()]|[*+,;=]#$)/;
 // const regexUrl = /^https?:\/\/[\w-.]*[\W]*(\.ru|\.com)$|^https?:\/\/[\w-.]*[\W]*
 // (\.ru|\.com)+(\/[\w]*|[+-_~:/?#[].@!$&'()*,;=])*$/;
+const regexUrl = /^https?:\/\/[\w-.]*\.((ru)|(com)|(net))?/;
+// const regexUrl = /^https?:\/\/[www]\.|(\w*-*)*\.(com?|org?|ru?|net?)((\/*\w*)*[-._~:?#@!$&'*,;=()[+/]*\]*)*/;
+
+// const regexUrl = /^https?:\/\/(\w*|-(\.)|\w*\.ru|\w*[-._~:/]|[?#[]@!$&'()]|[*+,;=]#$)/;
 
 module.exports.celebrateSignUp = celebrate({
   body: Joi.object().keys({
@@ -47,6 +50,6 @@ module.exports.celebrateCreateCard = celebrate({
 module.exports.celebrateDeleteAndLikesCard = celebrate({
   // валидируем параметры
   params: Joi.object().keys({
-    id: Joi.string().alphanum().length(24), // длина id = 24
+    id: Joi.string().length(24).hex().required(), // длина id = 24
   }),
 });

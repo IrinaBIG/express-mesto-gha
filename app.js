@@ -7,7 +7,6 @@ const { login, createUser } = require('./controllers/users');
 const { celebrateSignUp, celebrateSignIn } = require('./middlewares/validation');
 const handlerErrors = require('./middlewares/handlerErrors');
 
-// Слушаем 3000 порт
 const { PORT = 3000 } = process.env;
 const app = express();
 
@@ -29,7 +28,5 @@ app.use(errors()); // обработчик ошибок celebrate
 app.use(handlerErrors); // централизованнный обработчик
 
 app.listen(PORT, () => {
-  // Если всё работает, консоль покажет, какой порт приложение слушает
-  // eslint-disable-next-line no-console
   console.log(`App listening on port ${PORT}`);
 });
