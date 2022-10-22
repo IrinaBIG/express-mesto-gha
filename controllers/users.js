@@ -86,14 +86,6 @@ module.exports.createUser = (req, res, next) => {
         next(err);
       }
     });
-
-  // .catch((err) => {
-  //   if (err.name === 'ValidationError' && err.code === 11000) {
-  //     next(new BadRequestErr(`Пользователь с email '${req.body.email}' уже существует`));
-  //   } else {
-  //     next(err);
-  //   }
-  // });
 };
 
 module.exports.login = (req, res, next) => {
@@ -115,7 +107,6 @@ module.exports.updateUserProfileByID = (req, res, next) => {
     .then((user) => {
       if (!user) {
         throw new NotFoundErr('Пользователь с указанным _id не найден.');
-        // res.status(NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден.' });
       } else { // здесь тоже поправила, хоть и не отмечено было..
         res.send({ data: user });
       }
@@ -135,7 +126,6 @@ module.exports.updateUserAvatarByID = (req, res, next) => {
     .then((user) => {
       if (!user) {
         throw new NotFoundErr('Пользователь с указанным _id не найден.');
-        // res.status(NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден.' });
       } else { // здесь тоже поправила, хоть и не отмечено было..
         res.send({ data: user });
       }
