@@ -4,7 +4,6 @@ const BadRequestErr = require('../errors/bad-request-err');
 const NotFoundErr = require('../errors/not-found-err');
 const ConflictErr = require('../errors/conflict-err');
 const UnauthorizedErr = require('../errors/unauthorized-err');
-// const { countDocuments } = require('../models/user');
 const User = require('../models/user');
 
 module.exports.getUsers = (req, res, next) => {
@@ -18,7 +17,6 @@ module.exports.getUsersMe = (req, res, next) => {
     .then((user) => {
       if (!user) {
         throw new NotFoundErr('Пользователь не найден.');
-        // res.status(NOT_FOUND).send({ message: 'Пользователь не найден.' });
       } else {
         res.send(user);
       }
@@ -37,7 +35,6 @@ module.exports.getUserId = (req, res, next) => {
     .then((user) => {
       if (!user) {
         throw new NotFoundErr('Пользователь по указанному _id не найден.');
-        // res.status(NOT_FOUND).send({ message: 'Пользователь по указанному _id не найден.' });
       } else {
         res.send(user);
       }
@@ -71,29 +68,15 @@ module.exports.createUser = (req, res, next) => {
       _id: user._id,
       email: user.email,
     }))
-    // .catch((err) => {
-    //   console.log(err);
-    //   if (err.name === 'ValidationError' && err.code === '11000') {
-    //     next(new BadRequestErr('Переданы некорректные данные при создании пользователя.'));
-    //   } else {
-    //     next(err);
-    //   }
-    // });
     .catch((err) => {
       if (err.code === 11000) {
         next(new ConflictErr(`Пользователь с email '${req.body.email}' уже существует`));
+      } else if (err.name === 'ValidationError') {
+        next(new BadRequestErr('Переданы некорректные данные при создании пользователя.'));
       } else {
         next(err);
       }
     });
-
-  // .catch((err) => {
-  //   if (err.name === 'ValidationError' && err.code === 11000) {
-  //     next(new BadRequestErr(`Пользователь с email '${req.body.email}' уже существует`));
-  //   } else {
-  //     next(err);
-  //   }
-  // });
 };
 
 module.exports.login = (req, res, next) => {
@@ -115,8 +98,7 @@ module.exports.updateUserProfileByID = (req, res, next) => {
     .then((user) => {
       if (!user) {
         throw new NotFoundErr('Пользователь с указанным _id не найден.');
-        // res.status(NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден.' });
-      } else { // здесь тоже поправила, хоть и не отмечено было..
+      } else {
         res.send({ data: user });
       }
     })
@@ -135,8 +117,7 @@ module.exports.updateUserAvatarByID = (req, res, next) => {
     .then((user) => {
       if (!user) {
         throw new NotFoundErr('Пользователь с указанным _id не найден.');
-        // res.status(NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден.' });
-      } else { // здесь тоже поправила, хоть и не отмечено было..
+      } else {
         res.send({ data: user });
       }
     })

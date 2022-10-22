@@ -28,20 +28,14 @@ module.exports.deleteCardById = (req, res, next) => {
   Card.findById(req.params.id)
     .orFail(new NotFoundErr(`Карточка с ID '${req.params.id}' не найдена`))
     .then((card) => {
-      // if (!card) {
-      // eslint-disable-next-line max-len
-      //   return res.status(NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден.' });
-      // }
       const cardOwner = card.owner.toString();
-      // console.log(cardOwner);
-      // console.log(owner);
       if (cardOwner !== owner) {
         throw new ForbiddenErr('Вы не можете удалить карточку другого пользователя.');
-        // eslint-disable-next-line max-len
-        // return res.status(FORBIDDEN).send({ message: 'Вы не можете удалить карточку другого пользователя' });
       }
-      card.delete();
-      return res.send({ message: `Карточка с ID '${req.params.id}' удалена` });
+      return card.delete()
+        .then(() => {
+          res.send({ message: `Карточка с ID '${req.params.id}' удалена` });
+        });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -61,7 +55,6 @@ module.exports.likeCard = (req, res, next) => {
     .then((card) => {
       if (!card) {
         throw new NotFoundErr('Передан несуществующий _id карточки.');
-        // res.status(NOT_FOUND).send({ message: 'Передан несуществующий _id карточки.' });
       } else {
         res.send({ data: card });
       }
@@ -84,7 +77,6 @@ module.exports.dislikeCard = (req, res, next) => {
     .then((card) => {
       if (!card) {
         throw new NotFoundErr('Передан несуществующий _id карточки для удаления.');
-        // res.status(NOT_FOUND).send({ message: 'Передан несуществующий _id карточки.' });
       } else {
         res.send({ data: card });
       }
@@ -97,32 +89,3 @@ module.exports.dislikeCard = (req, res, next) => {
       }
     });
 };
-
-// начальный
-// module.exports.deleteCardById = (req, res) => {
-//   const owner = req.user._id;
-//   Card.findById(req.params.id)
-//     .then((card) => {
-//       if (!card) {
-// eslint-disable-next-line max-len
-//         return res.status(NOT_FOUND).send({ message: 'Пользователь с указанным _id не найден.' });
-//       }
-//       const cardOwner = card.owner.toString();
-//       // console.log(cardOwner);
-//       // console.log(owner);
-//       if (cardOwner !== owner) {
-// eslint-disable-next-line max-len
-//         return res.status(FORBIDDEN).send({ message: 'Вы не можете удалить карточку другого пользователя' });
-//       }
-//       card.delete();
-//       return res.send({ message: `Карточка с ID '${req.params.id}' удалена` });
-//     })
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-// eslint-disable-next-line max-len
-//          res.status(ERROR_CODE).send({ message: 'Переданы некорректные данные при удалении карточки.' });
-//       } else {
-//         res.status(INTERNAL_SERVER_ERROR).send({ message: 'Ошибка по умолчанию' });
-//       }
-//     });
-// };
