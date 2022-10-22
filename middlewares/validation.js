@@ -4,7 +4,8 @@ const { celebrate, Joi } = require('celebrate');
 // |^https?:\/\/[\w-.]*[^\W]*(\.ru\/)
 // [\w-.]*|[\W]*[^А-Яа-я]+/; // проверка link:/link~!bad
 const regexUrl = /^https?:\/\/(\w*|-(\.)|\w*\.ru|\w*[-._~:/]|[?#[]@!$&'()]|[*+,;=]#$)/;
-// const regexUrl = /^https?:\/\/[\w-.]*[\W]*(\.ru|\.com)$|^https?:\/\/[\w-.]*[\W]*(\.ru|\.com)+(\/[\w]*|[+-_~:/?#[].@!$&'()*,;=])*$/;
+// const regexUrl = /^https?:\/\/[\w-.]*[\W]*(\.ru|\.com)$|^https?:\/\/[\w-.]*[\W]*
+// (\.ru|\.com)+(\/[\w]*|[+-_~:/?#[].@!$&'()*,;=])*$/;
 
 module.exports.celebrateSignUp = celebrate({
   body: Joi.object().keys({
