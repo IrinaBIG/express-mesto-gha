@@ -6,7 +6,8 @@ const { celebrate, Joi } = require('celebrate');
 // const regexUrl = /^https?:\/\/[\w-.]*[\W]*(\.ru|\.com)$|^https?:\/\/[\w-.]*[\W]*
 // (\.ru|\.com)+(\/[\w]*|[+-_~:/?#[].@!$&'()*,;=])*$/;
 const regexUrl = /^https?:\/\/[\w-.]*\.((ru)|(com)|(net))?/;
-// const regexUrl = /^https?:\/\/[www]\.|(\w*-*)*\.(com?|org?|ru?|net?)((\/*\w*)*[-._~:?#@!$&'*,;=()[+/]*\]*)*/;
+// const regexUrl = /^https?:\/\/[www]\.|(\w*-*)*\.(com?|org?|ru?|net?)
+// ((\/*\w*)*[-._~:?#@!$&'*,;=()[+/]*\]*)*/;
 
 // const regexUrl = /^https?:\/\/(\w*|-(\.)|\w*\.ru|\w*[-._~:/]|[?#[]@!$&'()]|[*+,;=]#$)/;
 
