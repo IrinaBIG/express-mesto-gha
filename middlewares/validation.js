@@ -1,15 +1,6 @@
 const { celebrate, Joi } = require('celebrate');
 
-// const regexUrl = /^https?:\/\/[\w-.]*[^\W]*(\.ru)$|^https?:\/\/[\w-.]*[^\W]*(\.ru\/)$
-// |^https?:\/\/[\w-.]*[^\W]*(\.ru\/)
-// [\w-.]*|[\W]*[^А-Яа-я]+/; // проверка link:/link~!bad
-// const regexUrl = /^https?:\/\/[\w-.]*[\W]*(\.ru|\.com)$|^https?:\/\/[\w-.]*[\W]*
-// (\.ru|\.com)+(\/[\w]*|[+-_~:/?#[].@!$&'()*,;=])*$/;
-const regexUrl = /^https?:\/\/[\w-.]*\.((ru)|(com)|(net))?/;
-// const regexUrl = /^https?:\/\/[www]\.|(\w*-*)*\.(com?|org?|ru?|net?)
-// ((\/*\w*)*[-._~:?#@!$&'*,;=()[+/]*\]*)*/;
-
-// const regexUrl = /^https?:\/\/(\w*|-(\.)|\w*\.ru|\w*[-._~:/]|[?#[]@!$&'()]|[*+,;=]#$)/;
+const regexUrl = /^(https?:\/\/)[\w-.]*(\.ru)[*,;=._~:/?#[+@!$&'()-]*\]*[^а-я]*$/;
 
 module.exports.celebrateSignUp = celebrate({
   body: Joi.object().keys({
